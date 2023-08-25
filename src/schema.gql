@@ -1,0 +1,13 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Customer model"""
+type Customer {
+  """A unique identifier"""
+  customerId: ID!
+}
+
+type Query {
+  customers: [Customer!]!
+}
