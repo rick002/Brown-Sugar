@@ -1,38 +1,45 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { json } from "stream/consumers";
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Order } from "./order.entity";
 import { PaymentMethod } from "./payment-method.entity";
 import { ShoppingCart } from "./shopping-cart.entity";
 
 @Entity()
-@ObjectType({ description: 'Customer model'})
+@ObjectType({ description: 'Customer model.'})
 export class Customer {
     @PrimaryGeneratedColumn()
     @Field(() => ID, { description: 'A unique identifier' })
     customerId: number;
 
     @Column()
+    @Field()
     name: string;
-
+ 
     @Column()
+    @Field()
     lastname: string;
 
     @Column()
+    @Field()
     email: string;
 
     @OneToOne(() => ShoppingCart, cart => cart.customer)
+    @Field(() => ShoppingCart, { nullable: true })
     cart: ShoppingCart;
 
     @OneToMany(() => PaymentMethod, paymentMethod => paymentMethod.customer)
-    paymentMethods: PaymentMethod[];
+    @Field(() => [PaymentMethod], { nullable: true })
+    paymentMethods?: PaymentMethod[];
 
     @OneToMany(() => Order, order => order.customer)
-    generatedOrders: Order[];
+    @Field(() => [Order], { nullable: true })
+    generatedOrders?: Order[];
 
-    @Column()
+    @Field()
+    @CreateDateColumn()
     createdAt: Date;
 
-    @Column()
+    @Field()
+    @UpdateDateColumn()
     updatedAt: Date;
 }

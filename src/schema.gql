@@ -2,12 +2,113 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-"""Customer model"""
+"""An Invoice model."""
+type Invoice {
+  invoiceId: ID!
+  order: Order!
+  status: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""Payment methods model."""
+type PaymentMethod {
+  paymentMethodId: ID!
+  cardNumber: String!
+  expirationDate: String!
+  cvv: String!
+  customer: Customer!
+  orders: [Order!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A model for the shopping cart."""
+type ShoppingCart {
+  cartId: ID!
+  items: [Product!]!
+  customer: Customer!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A tax model."""
+type Tax {
+  taxId: ID!
+  name: String!
+  description: String!
+  taxAmount: Float!
+  products: [Product!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Product model."""
+type Product {
+  productId: ID!
+  name: String!
+  type: String!
+  description: String!
+  base_price: Float!
+  taxes: [Tax!]!
+  orders: [Order!]!
+  carts: [ShoppingCart!]!
+  cretedAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Order model."""
+type Order {
+  orderId: ID!
+  status: String!
+  invoice: Invoice!
+  customer: Customer!
+  paymentMethod: PaymentMethod!
+  products: [Product!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Customer model."""
 type Customer {
   """A unique identifier"""
   customerId: ID!
+  name: String!
+  lastname: String!
+  email: String!
+  cart: ShoppingCart!
+  paymentMethods: [PaymentMethod!]
+  generatedOrders: [Order!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
   customers: [Customer!]!
+  customer(id: ID!): Customer!
+}
+
+type Mutation {
+  createCustomer(createCustomerInput: createCustomerInput!): Customer!
+  updateCustomer(id: ID!, updateCustomerInput: UpdateCustomerInput!): Customer!
+  removeCustomer(id: ID!): Customer!
+}
+
+"""A new mutation input for the customer"""
+input createCustomerInput {
+  name: String!
+  lastname: String!
+  email: String!
+}
+
+input UpdateCustomerInput {
+  name: String
+  lastname: String
+  email: String
+  items: [ID!]!
 }

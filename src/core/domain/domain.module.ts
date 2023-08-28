@@ -10,17 +10,17 @@ import { Tax } from './entities/tax.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature(
-            [
-                Customer,
-                Invoice,
-                Order,
-                PaymentMethod,
-                Product,
-                ShoppingCart,
-                Tax,
-            ]
+        TypeOrmModule.forFeature([
+            Customer,
+            Invoice,
+            Order,
+            PaymentMethod,
+            Product,
+            ShoppingCart,
+            Tax,]
         )],
-    exports: [TypeOrmModule]
+    exports: [
+        TypeOrmModule,
+    ]
 })
 export class DomainModule { }
