@@ -27,6 +27,10 @@ export class Product {
     @Column()
     base_price: number;
 
+    @Field()
+    @Column()
+    stock: number;
+
     @Field(() => [Tax])
     @JoinTable()
     @ManyToMany(() => Tax, tax => tax.products)

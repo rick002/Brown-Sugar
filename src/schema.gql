@@ -55,6 +55,7 @@ type Product {
   type: String!
   description: String!
   base_price: Float!
+  stock: Float!
   taxes: [Tax!]!
   orders: [Order!]!
   carts: [ShoppingCart!]!

@@ -1,5 +1,4 @@
 import { Field, ID, InputType, PartialType } from "@nestjs/graphql";
-import { Product } from "../entities/product.entity";
 import { createCustomerInput } from "./create-customer.input";
 
 @InputType()

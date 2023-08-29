@@ -66,7 +66,8 @@ export class CustomerService {
     }
 
     private async updateCartByCustomer(customer: Customer, newItems: Product[]) {
-        let { cartId, items } = await this._shoppingCartRepository.findOne({ where: { customer }});
+        const { customerId } = customer;
+        let { cartId, items } = await this._shoppingCartRepository.findOne({ where: { customer: { customerId } }});
         if (!items) items = [...newItems];
         if (items) items.push(...newItems);
 
@@ -81,7 +82,8 @@ export class CustomerService {
     }
 
     private async removeCartByCustomer(customer: Customer) {
-        const cart = await this._shoppingCartRepository.findOne({ where: { customer: { customerId: customer.customerId } } });        
+        const { customerId } = customer;
+        const cart = await this._shoppingCartRepository.findOne({ where: { customer: { customerId } } });        
         if (!cart) return null;
         return await this._shoppingCartRepository.remove(cart); 
     }
@@ -92,6 +94,7 @@ export class CustomerService {
             const product = await this._productRepository.findOne({ where: { productId } });
             items.push(product);
         }
+        console.log('preloadProductsById: Items retrieved from the db: ', items);
         return items;
     }
 }
