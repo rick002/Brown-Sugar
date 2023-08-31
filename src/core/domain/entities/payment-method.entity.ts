@@ -1,16 +1,13 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Customer } from "./customer.entity";
 import { Order } from "./order.entity";
 
 @Entity()
 @ObjectType({ description: 'Payment methods model.'})
 export class PaymentMethod {
-    @PrimaryGeneratedColumn()
-    @Field(type => ID)
-    paymentMethodId: number;
 
-    @Column()
+    @PrimaryColumn()
     @Field()
     cardNumber: string;
 
@@ -23,12 +20,12 @@ export class PaymentMethod {
     cvv: string;
     
     @ManyToOne(() => Customer, customer => customer.paymentMethods)
-    @Field(() => Customer)
-    customer: Customer;
+    @Field(() => Customer, { nullable: true })
+    customer?: Customer;
 
-    @Field(() => [Order])
+    @Field(() => [Order], { nullable: true })
     @OneToMany(() => Order, order => order.paymentMethod)
-    orders: Order[];
+    orders?: Order[];
 
     @Field()
     @CreateDateColumn()

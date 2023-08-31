@@ -18,12 +18,11 @@ scalar DateTime
 
 """Payment methods model."""
 type PaymentMethod {
-  paymentMethodId: ID!
   cardNumber: String!
   expirationDate: String!
   cvv: String!
-  customer: Customer!
-  orders: [Order!]!
+  customer: Customer
+  orders: [Order!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -83,7 +82,7 @@ type Customer {
   lastname: String!
   email: String!
   cart: ShoppingCart!
-  paymentMethods: [PaymentMethod!]
+  paymentMethods: [PaymentMethod!]!
   generatedOrders: [Order!]
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -95,13 +94,13 @@ type Query {
 }
 
 type Mutation {
-  createCustomer(createCustomerInput: createCustomerInput!): Customer!
+  createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
   updateCustomer(id: ID!, updateCustomerInput: UpdateCustomerInput!): Customer!
   removeCustomer(id: ID!): Customer!
 }
 
 """A new mutation input for the customer"""
-input createCustomerInput {
+input CreateCustomerInput {
   name: String!
   lastname: String!
   email: String!
@@ -112,4 +111,12 @@ input UpdateCustomerInput {
   lastname: String
   email: String
   items: [ID!]!
+  paymentMethodInput: PaymentMethodInput!
+}
+
+"""A Payment input model for mutations"""
+input PaymentMethodInput {
+  cardNumber: String!
+  expirationDate: String!
+  cvv: String!
 }

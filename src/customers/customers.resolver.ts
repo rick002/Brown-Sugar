@@ -1,7 +1,7 @@
 import { ParseIntPipe } from '@nestjs/common';
 import { Args, ID, Mutation, Query } from '@nestjs/graphql';
 import { Resolver } from '@nestjs/graphql';
-import { createCustomerInput } from 'src/core/domain/dtos/create-customer.input';
+import { CreateCustomerInput } from 'src/core/domain/dtos/create-customer.input';
 import { UpdateCustomerInput } from 'src/core/domain/dtos/update-customer.input';
 import { Customer } from 'src/core/domain/entities/customer.entity';
 import { CustomerService } from 'src/core/services/customer/customer.service';
@@ -22,7 +22,7 @@ export class CustomersResolver {
     }
 
     @Mutation(() => Customer, { name: 'createCustomer' })
-    async create(@Args('createCustomerInput') createCustomerInput: createCustomerInput) {
+    async create(@Args('createCustomerInput') createCustomerInput: CreateCustomerInput) {
         return await this._customerService.create(createCustomerInput);
     }
 
@@ -36,5 +36,6 @@ export class CustomersResolver {
     @Mutation(() => Customer, { name: 'removeCustomer' })
     async remove(@Args('id', { type: () => ID }, ParseIntPipe) id: number) {
         return await this._customerService.remove(id);
-    }    
+    }
+    
 }

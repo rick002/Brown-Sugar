@@ -24,7 +24,7 @@ export class Customer {
     email: string;
 
     @OneToOne(() => ShoppingCart, cart => cart.customer)
-    @Field(() => ShoppingCart, { nullable: true })
+    @Field(() => ShoppingCart)
     cart: ShoppingCart;
 
     @OneToMany(() => PaymentMethod, paymentMethod => paymentMethod.customer)

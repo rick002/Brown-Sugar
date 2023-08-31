@@ -9,14 +9,14 @@ export class ProductsResolver {
     constructor(
         @InjectRepository(Product)
         private readonly _productsRepository: Repository<Product>,
-    ) {}
+    ) { }
 
     @ResolveField('items', () => [Product])
     async getShoppingCartItems(@Parent() cart: ShoppingCart) {
         const result = await this._productsRepository
             .createQueryBuilder('product')
             .innerJoin('product.carts', 'shopping-cart', 'shopping-cart.cartId = :cartId',
-            { cartId: cart.cartId})
+                { cartId: cart.cartId })
             .getMany();
         return result;
     }
